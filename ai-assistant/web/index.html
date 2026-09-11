@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>My AI</title>
+<link rel="stylesheet" href="/web/style.css">
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">✦</div><div><b>My AI</b><span>личный ассистент</span></div></div><div id="status" class="status">● MVP</div></header>
+<main>
+<section id="chat" class="screen active">
+<div id="messages" class="messages"></div>
+<div class="composer"><textarea id="input" rows="1" placeholder="Напиши что-нибудь..."></textarea><button id="send">➤</button></div>
+</section>
+<section id="tasks" class="screen"><h2>Задачи</h2><div class="add"><input id="taskInput" placeholder="Новая задача"><button id="addTask">Добавить</button></div><div id="taskList"></div></section>
+<section id="memory" class="screen"><h2>Память</h2><div class="add"><input id="memoryInput" placeholder="Что запомнить?"><button id="addMemory">Сохранить</button></div><div id="memoryList"></div></section>
+</main>
+<nav><button data-screen="chat">💬<span>Чат</span></button><button data-screen="tasks">✓<span>Задачи</span></button><button data-screen="memory">🧠<span>Память</span></button></nav>
+</div>
+<script src="/web/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#08090d">
+  <title>My AI</title>
+  <link rel="stylesheet" href="/web/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <div class="brand-copy"><strong>My AI</strong><span>Твой личный ассистент</span></div>
+    </div>
+    <button class="icon-btn" id="newChat" aria-label="Новый чат">＋</button>
+  </header>
+
+  <main class="content">
+    <section id="chat" class="screen active">
+      <div id="messages" class="messages"></div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="input" rows="1" maxlength="8000" placeholder="Напиши сообщение..."></textarea>
+          <button id="send" class="send-btn" aria-label="Отправить">↑</button>
+        </div>
+        <div class="composer-hint">Enter — отправить · Shift + Enter — новая строка</div>
+      </div>
+    </section>
+
+    <section id="tasks" class="screen">
+      <div class="page-head"><div><span class="eyebrow">ПЛАН</span><h1>Задачи</h1><p>То, что нужно сделать.</p></div></div>
+      <div class="add-card"><input id="taskInput" autocomplete="off" placeholder="Например: закончить бота"><button id="addTask">Добавить</button></div>
+      <div id="taskList" class="list"></div>
+      <div id="emptyTasks" class="empty">Пока задач нет.<br>Добавь первую выше.</div>
+    </section>
+
+    <section id="memory" class="screen">
+      <div class="page-head"><div><span class="eyebrow">КОНТЕКСТ</span><h1>Память</h1><p>Важные вещи, которые ассистент должен помнить.</p></div></div>
+      <div class="add-card"><input id="memoryInput" autocomplete="off" placeholder="Например: я работаю с телефона"><button id="addMemory">Сохранить</button></div>
+      <div id="memoryList" class="list"></div>
+      <div id="emptyMemory" class="empty">Память пока пустая.</div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-screen="chat"><span class="nav-icon">⌁</span><span>Чат</span></button>
+    <button class="nav-item" data-screen="tasks"><span class="nav-icon">✓</span><span>Задачи</span></button>
+    <button class="nav-item" data-screen="memory"><span class="nav-icon">✦</span><span>Память</span></button>
+  </nav>
+</div>
+<script src="/web/app.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-const defaultApi = String.fromEnvironment('API_BASE_URL', defaultValue: '');
+const defaultApi = String.fromEnvironment('API_BASE_URL', defaultValue: 'https://myaiassistent.onrender.com');
 
 void main() => runApp(const MyAIApp());
 
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   final api = Api(); final input = TextEditingController(); final taskInput = TextEditingController(); final memoryInput = TextEditingController();
   final messages = <Map<String,dynamic>>[]; List<dynamic> tasks=[]; List<dynamic> memories=[]; int tab=0; int? conversationId; bool loading=true; bool sending=false;
   @override void initState(){super.initState(); _init();}
-  Future<void> _init() async { if(api.base.isEmpty){setState(()=>loading=false); return;} try { final cs=await api.request('/api/conversations'); if(cs.isEmpty){final c=await api.request('/api/conversations',method:'POST'); conversationId=c['id'];} else conversationId=cs[0]['id']; await Future.wait([_loadMessages(),_loadTasks(),_loadMemories()]); } catch(e){messages.add({'role':'assistant','content':'Не удалось подключиться: $e'});} setState(()=>loading=false); }
+  Future<void> _init() async { try { final cs=await api.request('/api/conversations'); if(cs.isEmpty){final c=await api.request('/api/conversations',method:'POST'); conversationId=c['id'];} else conversationId=cs[0]['id']; await Future.wait([_loadMessages(),_loadTasks(),_loadMemories()]); } catch(e){messages.add({'role':'assistant','content':'Не удалось подключиться: $e'});} if(mounted)setState(()=>loading=false); }
   Future<void> _loadMessages() async {final ms=await api.request('/api/conversations/$conversationId/messages'); messages..clear()..addAll(List<Map<String,dynamic>>.from(ms));}
   Future<void> _loadTasks() async {tasks=await api.request('/api/tasks');}
   Future<void> _loadMemories() async {memories=await api.request('/api/memories');}

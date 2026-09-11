@@ -1,0 +1,48 @@
+name: Build My AI APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'ai-assistant/android-app/**'
+      - '.github/workflows/build-my-ai-apk.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create Android project
+        run: flutter create --platforms=android --project-name my_ai_assistant ai-assistant/android-build
+
+      - name: Copy app source
+        run: |
+          cp ai-assistant/android-app/pubspec.yaml ai-assistant/android-build/pubspec.yaml
+          cp ai-assistant/android-app/lib/main.dart ai-assistant/android-build/lib/main.dart
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('ai-assistant/android-build/android/app/src/main/AndroidManifest.xml')
+          s=p.read_text()
+          if 'android.permission.INTERNET' not in s:
+              s=s.replace('<manifest xmlns:android="http://schemas.android.com/apk/res/android">','<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    <uses-permission android:name="android.permission.INTERNET"/>')
+          p.write_text(s)
+          PY
+
+      - name: Build release APK
+        working-directory: ai-assistant/android-build
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-ai-assistant-apk
+          path: ai-assistant/android-build/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
